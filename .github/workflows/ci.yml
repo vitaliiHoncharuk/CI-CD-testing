@@ -10,6 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Cache node_modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}node-${{ hashfiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: use NodeJS
         uses: actions/setup-node@v1
         with:
@@ -19,9 +26,20 @@ jobs:
       - run: npm test -- --coverage
         env:
           CI: true
+      - name: upload test coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage-report
+          path: coverage
       - name: Build project
         if: github.event_name == 'push'
         run: npm run build
+      - name: Upload build
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
       - name: Deploy to staging
         if: github.event_name == 'push'
         run: npx surge --project ./build --domain tight-comb.surge.sh
