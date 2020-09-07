@@ -1,0 +1,15 @@
+name: Hello World!
+author: Vitalii Honcharuk
+description: test action
+inputs:
+  who-to-greet:
+    description: who to greet
+    required: true
+    default: User
+outputs:
+  time:
+    description: greeting
+runs:
+  using: node12
+  main: index.js
+
