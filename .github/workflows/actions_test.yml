@@ -4,6 +4,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          ls
+          npm install
       - uses: ./.github/actions/hello
         id: hello
         with:
