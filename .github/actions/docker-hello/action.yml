@@ -1,0 +1,18 @@
+name: Hello World!
+author: Vitalii Honcharuk
+description: test action in docker container
+inputs:
+  who-to-greet:
+    description: who to greet
+    required: true
+    default: User
+outputs:
+  time:
+    description: greeting
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  entrypoint:
+  args:
+    - ${{ inputs.who-to-greet }}
+
